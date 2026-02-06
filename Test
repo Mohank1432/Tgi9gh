@@ -102,3 +102,138 @@ Q: The QR code expired before I scanned it. A: The QR codes are time-sensitive f
 Q: Can I use a different authenticator app (like Google Authenticator)? A: No. You must use the CyberArk Mobile App because it utilizes specific cryptographic keys and biometric validation required by our Zero Trust policy.
 Q: Why was my session disconnected? A: Access is granted on a "Just-in-Time" basis. If your authorized time window (e.g., 9:00 AM - 5:00 PM) has ended, your access is automatically revoked and active sessions may be terminated. Contact your project lead if you require an extension.
 
+
+KB Article: Prerequisites for Onboarding External Vendors to CyberArk Remote Access
+Summary
+This article outlines the mandatory prerequisites and information required to onboard external third-party vendors to the CyberArk Remote Access service. Unlike traditional access methods, this solution utilizes Just-in-Time (JIT) provisioning and Biometric Authentication. We do not create permanent Active Directory accounts or distribute VPN tokens for these users.
+Please ensure you have gathered all the details listed below before submitting an access request.
+
+--------------------------------------------------------------------------------
+1. Required Vendor User Details
+To send a valid invitation via the CyberArk Remote Access portal, you must provide the following specific identity details for the individual vendor. Group email addresses (e.g., support@vendor.com) are not supported; access is tied to a specific biometric identity.
+• First and Last Name: The legal name of the vendor/contractor.
+• Business Email Address: The invitation link will be sent here. This must be accessible from the vendor's workstation or mobile device.
+• Mobile Phone Number: Required for SMS verification during the initial application registration.
+• Vendor Company Name: Used for audit trails and grouping users within the "Identities" directory.
+Note: If you are onboarding a large team, you may designate one lead contact as a "Vendor Manager." This allows them to invite their own team members within the scope you define, reducing your administrative overhead.
+
+--------------------------------------------------------------------------------
+2. Defining Access Scope (Access Groups)
+CyberArk enforces a Zero Trust model. Vendors are not granted network-level access; they are granted permission to specific "Safes" or "Applications" via the HTML5 Gateway. You must define the following:
+• Target System/Application: Which specific server, database, or web console does the vendor need to access? (e.g., Finance-SQL-01 or Linux-Web-Prod).
+• Privileged Role: What level of privilege is required?
+    ◦ Read-Only / Shadowing (View capability only)
+    ◦ Operational (Restart services, run logs)
+    ◦ Full Admin (Root/Administrator access)
+• CyberArk Safe/Group Mapping: If known, specify the existing CyberArk Safe or User Group the vendor should be added to. Remote Access maps external vendor identities to internal CyberArk roles to enforce Least Privilege.
+
+--------------------------------------------------------------------------------
+3. Access Timeframe (Just-in-Time Parameters)
+Standing access (24/7 permanent access) is prohibited under our Zero Standing Privileges (ZSP) policy. You must define the specific access window.
+• Start Date: When should the access begin?
+• End Date: When should the access automatically expire?
+• Allowed Working Hours (Optional but Recommended):
+    ◦ Example: Monday – Friday, 09:00 – 17:00 EST
+    ◦ Access attempted outside these hours will be automatically denied.
+
+--------------------------------------------------------------------------------
+4. Technical Prerequisites (For the Vendor)
+Before you send the invite, please inform the vendor that they must meet the following hardware requirements to authenticate. If they cannot meet these, they cannot log in.
+• Smartphone Requirement: The vendor must have an iOS or Android device capable of installing the CyberArk Mobile App.
+• Biometrics Enabled: The device must have a working biometric scanner (FaceID, TouchID, or Android Fingerprint). The app uses the device's secure enclave to sign access requests password-lessly.
+• No VPN Client Needed: Instruct the vendor not to install any VPN clients. Access is entirely browser-based (HTML5) and clientless.
+
+--------------------------------------------------------------------------------
+5. Example Request Template
+Copy and paste this into your IT Service Management (ticket) system when requesting access:
+Subject: New Vendor Access Request - CyberArk
+Vendor Details:
+• Name: John Doe
+• Email: john.doe@externalvendor.com
+• Phone: +1-555-0199
+• Company: TechSolutions Inc.
+Access Scope:
+• Target: Marketing-Web-Server-01 (SSH)
+• Role: Web Administrator
+• Justification: Quarterly maintenance and patching.
+Timeframe:
+• Duration: Oct 1, 2025 – Oct 5, 2025
+• Window: 9 AM – 5 PM only.
+
+--------------------------------------------------------------------------------
+6. Support & Troubleshooting
+• Invitation Expiry: Invite links are time-sensitive for security. If the vendor does not accept within the designated time (usually 24-48 hours), a new request must be generated.
+• Data Sovereignty: Please indicate if the vendor is accessing data from a region with strict data residency laws (e.g., EU/GDPR), as their tenant location may need to be adjusted.
+
+--------------------------------------------------------------------------------
+Reference:
+• CyberArk Vendor Privileged Access Manager Capabilities
+• SOC 2 Compliance & Identity Security
+How do access groups simplify external vendor onboarding processes?
+Can vendors self-manage invitations without compromising security standards?
+What user details are essential for sending secure invitations?
+create a KB for vendor managers on how to create vendors teams/invite them and accept theinvite and so
+
+Here is a Knowledge Base (KB) article designed for External Vendor Managers. This guide provides step-by-step instructions on how to manage your team's access using the CyberArk Remote Access portal.
+
+--------------------------------------------------------------------------------
+Vendor Manager Guide: Managing Your Team’s Access via CyberArk
+Overview
+You have been designated as a Vendor Manager for your organization. This role empowers you to invite, manage, and revoke access for your own team members who require connectivity to our systems.
+Instead of waiting for our internal IT Help Desk to process individual requests, you can provision access for your staff directly. This "Delegated Administration" model ensures your team gets access quickly, while strictly adhering to the security boundaries defined by our organization.
+
+--------------------------------------------------------------------------------
+Part 1: Prerequisites
+Before inviting your team, ensure you have completed your own registration:
+1. You must be registered: You should have already received an invitation, downloaded the CyberArk Mobile App, and registered your biometrics (FaceID/Fingerprint).
+2. Vendor Manager Role: Confirm that you can see the "Team" or "Users" tab when you log into the Remote Access portal. If you do not see this, contact your internal sponsor to request the "Vendor Manager" role designation.
+
+--------------------------------------------------------------------------------
+Part 2: How to Invite New Team Members
+You can invite your colleagues to access the specific applications and systems assigned to your vendor group.
+1. Log In to the Portal:
+    ◦ Navigate to the Remote Access URL provided (e.g., https://portal.alero.io).
+    ◦ Scan the QR code with your CyberArk Mobile App to log in.
+2. Navigate to Team Management:
+    ◦ Click on the Team or Users tab in the left-hand navigation menu.
+3. Send Invitation:
+    ◦ Click the "Invite" or "Add User" button.
+    ◦ Enter the required details for your team member:
+        ▪ First Name & Last Name
+        ▪ Work Email Address
+        ▪ Mobile Phone Number (Required for SMS verification)
+4. Set Access Timeframe (Optional):
+    ◦ Depending on the permissions granted to you, you may need to define the access window (e.g., "Oct 1st to Oct 31st").
+    ◦ Note: You cannot grant access beyond the expiry date of your own account or the project scope defined by our internal administrators.
+5. Confirm and Send:
+    ◦ Click Invite. The system will automatically send an email to your colleague with activation instructions.
+
+--------------------------------------------------------------------------------
+Part 3: The Onboarding Experience (What Your Team Needs to Do)
+Once you send the invite, your team member must complete the setup themselves. They cannot share accounts; each user must have their own unique biometric identity.
+Please instruct your team to follow these steps:
+1. Check Email: Look for the invitation email (check Spam/Junk folders if missing).
+2. Download App: Install the CyberArk Mobile App on their smartphone (iOS or Android).
+3. Register: Open the app, enter their phone number, and register their biometrics (FaceID or Fingerprint).
+4. Activate: Click the link in the invitation email to bind their app to our tenant.
+Crucial Security Note: Access is password-less. Your team members do not need to create a username or password. Their physical smartphone and biometrics act as their key.
+
+--------------------------------------------------------------------------------
+Part 4: Managing and Monitoring Your Team
+As a Vendor Manager, you are responsible for maintaining the accuracy of your team list.
+Monitoring Status
+In the Team tab, you can view the status of every user you have invited:
+• Invited / Pending: The email was sent, but the user has not yet registered. You may need to "Resend Invite" if they lost the email.
+• Active: The user has successfully registered and can access the system.
+Offboarding (Revoking Access)
+If a team member leaves your company or moves to a different project, you must remove their access immediately to maintain security.
+1. Locate the user in the Team list.
+2. Select the user and click Delete or Deactivate.
+3. Result: Their access is immediately revoked. Even if they have the app, they will no longer be able to scan the QR code to log in to our environment.
+
+--------------------------------------------------------------------------------
+Frequently Asked Questions (FAQ)
+Q: Can I grant my team access to additional servers? A: No. You can only invite users to the groups assigned to you. If your team needs access to new systems, please contact your internal Project Manager to update the scope of your Vendor Group.
+Q: Does my team need a VPN? A: No. CyberArk Remote Access is clientless and VPN-less. Your team only needs a web browser (HTML5) and the mobile app to connect.
+Q: What if a team member loses their phone? A: For security reasons, if a device is lost, that user's specific access token is compromised (though it still requires biometrics). You should Deactivate their user immediately in the portal. When they get a new phone, send them a fresh invitation to register the new device.
+Q: Why does the invite expire? A: Invitations are time-sensitive to prevent unauthorized usage. If a team member waits too long (typically 24-48 hours) to accept, the link will expire, and you will need to resend the invitation.
