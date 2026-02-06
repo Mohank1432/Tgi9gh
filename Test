@@ -35,3 +35,70 @@ Phase 3: The Secure Connection (Crossing the Perimeter)
 Phase 4: The Isolated Session (Doing the Work)
 • Step 10 & 11: Protocol Translation: The vendor is not connected directly to the internal server. Instead, the HTML5 Gateway translates the internal RDP (Windows) or SSH (Linux) session into a secure webpage stream. The vendor sees the server screen in their browser, but malware cannot jump from their laptop to the company server.
 • Step 12: Audit & Monitoring: Because the session flows through CyberArk, every keystroke and mouse click is recorded. Security teams can watch the session live or review the video later for compliance (e.g., SOC 2 audit).
+
+
+
+KB Article: Vendor Guide to Accessing Systems via CyberArk Remote Access
+Overview
+Our organization uses CyberArk Remote Access to provide you with secure connection to internal applications. Unlike traditional VPNs, this solution does not require you to install a VPN client on your laptop, nor does it require you to manage a static password.
+Instead, you will authenticate using the CyberArk Mobile App on your smartphone, leveraging your device's biometrics (FaceID or Fingerprint) for a passwordless, high-security login experience.
+Prerequisites
+Before initiating access, ensure you have the following:
+1. A Smartphone: An iOS or Android device with a working camera.
+2. Biometrics Enabled: Your phone must have FaceID (iOS) or Fingerprint/Biometric authentication enabled and configured.
+3. Internet Connectivity: Both your workstation and mobile device require internet access for the initial setup.
+
+--------------------------------------------------------------------------------
+Part 1: Registration and Onboarding
+You will receive an invitation email to join our secure tenant. Follow these steps to register your identity.
+1. Locate the Invitation Email: Check your inbox for an email from CyberArk Remote Access (formerly Alero).
+    ◦ Note: If you do not see it, check your Spam/Junk folder.
+2. Download the App: The email will contain links to download the CyberArk Mobile app from the Apple App Store or Google Play Store. Install this application on your smartphone.
+3. Register Your Biometrics:
+    ◦ Open the app.
+    ◦ Enter your mobile phone number.
+    ◦ You will receive an SMS verification code. Enter this code into the app.
+    ◦ The app will prompt you to authenticate using your phone’s biometrics (FaceID or Fingerprint). This binds your physical identity to your access rights.
+4. Accept the Invite: Return to the email on your computer or phone and click the activation link. This will finalize your registration with our tenant.
+Privacy Note: Your biometric data (face or fingerprint) remains encrypted in your phone’s secure storage. It is never transmitted to the cloud or stored by our organization.
+
+--------------------------------------------------------------------------------
+Part 2: Logging In (Daily Usage)
+Once registered, you can access shared resources using the QR code login flow.
+1. Navigate to the Portal: Open your web browser (Chrome, Edge, Firefox, or Safari) and go to the Remote Access portal URL provided in your invitation (e.g., https://portal.alero.io or https://portal.alero.eu depending on your region).
+2. Scan the QR Code:
+    ◦ The web page will display a unique QR code.
+    ◦ Open the CyberArk Mobile App on your phone.
+    ◦ Tap the camera icon/scan button within the app.
+    ◦ Point your phone at the computer screen to scan the QR code.
+3. Biometric Approval:
+    ◦ Immediately after scanning, the app will ask for biometric verification.
+    ◦ Use your FaceID or Fingerprint to confirm.
+4. Access Granted: The web portal on your computer will automatically refresh, logging you in without you ever needing to type a password.
+
+--------------------------------------------------------------------------------
+Part 3: Accessing Applications
+After logging in, you will see the Applications page.
+1. Select Target System: You will see tiles representing the specific servers or applications you are authorized to access.
+2. Initiate Session: Click on an application tile.
+3. HTML5 Session: The session will open in a new browser tab. You will have control of the remote server (RDP or SSH) directly inside your web browser. No data is stored on your local machine.
+    ◦ Note: All sessions are recorded and monitored for security and compliance purposes.
+
+--------------------------------------------------------------------------------
+Part 4: Managing Your Team (For Vendor Managers Only)
+If you have been designated as a Vendor Manager, you have the ability to invite your own team members to the project.
+1. Log In: Access the portal using the steps in Part 2.
+2. Go to Team Management: Click on the "Team" or "Users" tab in the navigation menu.
+3. Invite User:
+    ◦ Click "Invite Vendor."
+    ◦ Enter your colleague's First Name, Last Name, email address, and phone number.
+    ◦ Set the activation timeframe (within the limits allowed by our internal admin).
+4. Monitor Status: You can view whether your team members have "Registered" or if their invite is "Pending".
+
+--------------------------------------------------------------------------------
+Troubleshooting & FAQ
+Q: What if I don't have internet access on my phone? A: The CyberArk Mobile App supports Offline Access. If your phone has no signal, you can still open the app to generate a time-based one-time code to access credentials or secure notes that have been cached on the device.
+Q: The QR code expired before I scanned it. A: The QR codes are time-sensitive for security. simply refresh your web browser to generate a new code. Ensure your phone's time settings are set to "Automatic" to prevent synchronization errors.
+Q: Can I use a different authenticator app (like Google Authenticator)? A: No. You must use the CyberArk Mobile App because it utilizes specific cryptographic keys and biometric validation required by our Zero Trust policy.
+Q: Why was my session disconnected? A: Access is granted on a "Just-in-Time" basis. If your authorized time window (e.g., 9:00 AM - 5:00 PM) has ended, your access is automatically revoked and active sessions may be terminated. Contact your project lead if you require an extension.
+
