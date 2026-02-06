@@ -1,3 +1,28 @@
+The architecture is built on a hybrid model combining a cloud-native SaaS service with an on-premises connector, ensuring that sensitive credentials remain within the customer’s secure environment while leveraging the cloud for orchestration.
+3.1 Architectural Components
+Component
+Description
+Deployment Location
+Remote Access Cloud Service
+The SaaS orchestration layer managing tenant activation, vendor invitations, and the authentication handshake. No credentials or biometrics are stored here.
+CyberArk AWS Cloud (Regional)
+CyberArk Mobile App
+Acts as the biometric authenticator. It scans QR codes from the web portal and uses the device’s secure enclave (FaceID/Fingerprint) to sign cryptographic challenges.
+User’s Smartphone (iOS/Android)
+Remote Access Connector
+A lightweight container (Docker/Podman) that bridges the SaaS service and the internal network. It requires no inbound ports, using only an outbound tunnel over port 443.
+Customer On-Premises / Private Cloud (Linux Host)
+HTML5 Gateway
+Translates RDP and SSH sessions into HTTPS. This ensures protocol isolation, preventing malware or direct network connections from the remote endpoint.
+Customer On-Premises (often co-hosted with Connector)
+CyberArk PAM / Privilege Cloud
+The core vaulting service that manages credentials, rotates passwords, and records sessions.
+On-Premises or SaaS
+3.2 Connectivity Flow
+
+
+
+
 Phase 1: Onboarding (Getting the Vendor Ready)
 • Step 1 & 2: Invitation: An internal administrator sends an invite to the vendor's email address. They define a specific timeframe (e.g., "Access allowed only on Monday, 9 AM - 5 PM").
 • Step 3: Registration: The vendor downloads the CyberArk Mobile App. They register using their phone number and their device's native biometrics (FaceID or Fingerprint). This binds their physical identity to their digital access rights.
